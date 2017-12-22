@@ -1,4 +1,4 @@
-import { ADD_REMINDER, DELETE_REMINDER } from '../constants'
+import { ADD_REMINDER, DELETE_REMINDER, RANDOMIZE_REMINDERS } from '../constants'
 
 
 export const addReminder = (text) => {
@@ -9,6 +9,16 @@ export const addReminder = (text) => {
     console.log('action in addReminder', action);
     return action;
 }
+
+export const randomizeReminder = () => {
+    const action = {
+        type: RANDOMIZE_REMINDERS
+    }
+    console.log('action in randomizeReminder', action);
+    return action;
+}
+
+
 
 
 export const deleteReminder = (id) => {

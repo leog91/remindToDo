@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { connect } from 'react-redux';
 //import { bindActionCreators } from 'redux';
-import { addReminder, deleteReminder } from './actions';
+import { addReminder, deleteReminder, randomizeReminder } from './actions';
 
 
 class App extends Component {
@@ -18,6 +18,11 @@ class App extends Component {
     this.props.addReminder(this.state.text);
   }
 
+  randomizeReminder() {
+    this.props.randomizeReminder();
+  }
+
+
   deleteReminder(id) {
     //console.log('deleting in application', id);
     //console.log('this.props', this.props);
@@ -25,11 +30,26 @@ class App extends Component {
   }
 
 
+  renderRandomReminders() {
+    const { reminders } = this.props;
+    let rand = "nill";
+    console.log(reminders.length);
+    if (reminders.length > 0) {
+      rand = reminders[Math.floor(Math.random() * reminders.length)];
+    }
+    //console.log("rand", rand);
+    //console.log("reminders", reminders);
+    return (
+      <div className="list-item">{rand.text}</div>
+    )
+  }
+
+
   renderReminders() {
     const { reminders } = this.props;
     //console.log('reminders', reminders);
     return (
-      <ul className="list-group col-sm-4">
+      <ul className="list-group col-sm-4" >
         {
           reminders.map(reminder => {
             return (
@@ -74,10 +94,26 @@ class App extends Component {
           <button type="button"
             className="btn btn-success"
             onClick={() => this.addReminder()}
+
           >
             Add Reminder
           </button>
+
+          <button type="button"
+            className="btn btn-success"
+            onClick={event => this.setState({ text: event.target.value })}
+          >
+            random
+          </button>
+          <button type="button"
+            className="btn btn-success"
+            onClick={() => this.randomizeReminder()}
+          >
+            randomizer
+          </button>
           {this.renderReminders()}
+          <br></br>
+          {this.renderRandomReminders()}
         </div>
 
         <p className="App-intro">
@@ -89,7 +125,7 @@ class App extends Component {
 }
 
 /*function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ addReminder }, dispatch);
+  return bindActionCreators({addReminder}, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(App);
@@ -103,4 +139,4 @@ function mapStateToProps(state) {
 
 
 
-export default connect(mapStateToProps, { addReminder, deleteReminder })(App);
+export default connect(mapStateToProps, { addReminder, deleteReminder, randomizeReminder })(App);

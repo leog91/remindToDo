@@ -1,4 +1,4 @@
-import { ADD_REMINDER, DELETE_REMINDER } from '../constants';
+import { ADD_REMINDER, DELETE_REMINDER, RANDOMIZE_REMINDERS } from '../constants';
 
 
 const reminder = (action) => {
@@ -15,6 +15,12 @@ const removeById = (state = [], id) => {
     return reminders;
 }
 
+const randomizer = (state = []) => {
+    const reminders = state.map((a) => [Math.random(), a]).sort((a, b) => a[0] - b[0]).map((a) => a[1]);
+    return reminders;
+}
+
+
 const reminders = (state = [], action) => {
     let reminders = null
 
@@ -25,6 +31,11 @@ const reminders = (state = [], action) => {
             return reminders;
         case DELETE_REMINDER:
             reminders = removeById(state, action.id);
+            console.log('reminders as state', reminders);
+            return reminders;
+        case RANDOMIZE_REMINDERS:
+            reminders = randomizer(state);
+            console.log('reminders as state', reminders);
             return reminders;
         default:
             return state;
